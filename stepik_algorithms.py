@@ -1,5 +1,5 @@
 import time
-from builtins import print
+from math import gcd
 
 
 def get_fib(n):
@@ -73,21 +73,51 @@ def get_fib_n_mod_m(n, m):
     return a2
 
 
-def get_nod(a, b):
+def get_gcd(a, b):
     if a == 0:
         return b
     elif b == 0:
         return a
     elif a >= b:
-        return get_nod(a % b, b)
+        return get_gcd(a % b, b)
     else:
-        return get_nod(a, b % a)
+        return get_gcd(a, b % a)
+
+
+def get_gcd_another(a, b):
+    assert a >= 0 and b >= 0
+    for d in reversed(range(max(a, b) + 1)):
+        if d == 0 or a % d == b % d == 0:
+            return d
+
+
+def get_gcd_2(a, b):
+    while a and b:
+        if a >= b:
+            a %= b
+        else:
+            b %= a
+    return max(a, b)
+
+
+def compare_gcd(a, b):
+    startTime1 = time.time()
+    print(get_gcd(a, b))
+    print("Elapsed time: {:.3f} sec".format(time.time() - startTime1))
+    startTime2 = time.time()
+    print(gcd(a, b))
+    print("Elapsed time: {:.3f} sec".format(time.time() - startTime2))
+    startTime3 = time.time()
+    print(get_gcd_another(a, b))
+    print("Elapsed time: {:.3f} sec".format(time.time() - startTime3))
+    startTime4 = time.time()
+    print(get_gcd_2(a, b))
+    print("Elapsed time: {:.3f} sec".format(time.time() - startTime4))
 
 
 if __name__ == '__main__':
     #  compare_fib_methods(40)
     #  print(get_fib_last_digit(696352))
     #  print(get_fib_n_mod_m(10, 2))
-    print(get_nod(18, 12))
-
+    compare_gcd(124000, 800000)
 
