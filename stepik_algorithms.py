@@ -1,5 +1,5 @@
 import time
-from math import gcd
+from math import gcd, floor, sqrt
 
 
 def get_fib(n):
@@ -115,9 +115,57 @@ def compare_gcd(a, b):
     print("Elapsed time: {:.3f} sec".format(time.time() - startTime4))
 
 
+def greedy_algor(arr):
+    arr.sort(key=lambda x: x[1])
+    i = 0
+    l = len(arr)
+    sb = ""
+    while i < l:
+        point = arr[i][1]
+        j = i
+        while j < l and point <= arr[j][1] and point >= arr[j][0]:
+            i = j
+            j += 1
+        sb += str(point) + " "
+        i += 1
+    print(len(sb[:-1].split(" ")))
+    print(' '.join(str(s) for s in sb[:-1].split(" ")))
+
+
+def expensive_bug(n, arr):
+    arr.sort(key=lambda x: x[0]/x[1])
+    arr = arr[::-1]
+    q = n[0]
+    w = n[1]
+    j = []
+    for i in arr:
+        if q == 0 or w == 0:
+            break
+        elif i[1] >= w:
+            j.append(i[0] / i[1] * w)
+            w = 0
+            q -= 1
+        else:
+            w = w - i[1]
+            q -= 1
+            j.append(i[0])
+    print("{:.5f}".format(sum(j)))
+
+
+def get_s(k):
+    n = k * ((k + 1) / 2)
+    print(n)
+    x = floor((sqrt(1 + 8 * k) - 1) / 2) - 1
+    print(x)
+
+
 if __name__ == '__main__':
     #  compare_fib_methods(40)
     #  print(get_fib_last_digit(696352))
     #  print(get_fib_n_mod_m(10, 2))
-    compare_gcd(124000, 800000)
+    #  compare_gcd(124000, 800000)
+    #  greedy_algor([[1, 3], [2, 5], [3, 6]])
+    #  greedy_algor([[4, 7], [1, 3], [2, 5], [5, 6]])
+    #  expensive_bug([3, 80], [[60, 20], [100, 50], [120, 30]])
+    get_s(6)
 
