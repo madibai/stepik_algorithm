@@ -159,6 +159,45 @@ def get_s(k):
     print(x)
 
 
+def check_brackets_seq(s):
+    a = []
+    for char in s:
+        if char in {'(', '['}:
+            a.append(char)
+        else:
+            if len(a) == 0:
+                return False
+            top = a.pop()
+            if top == '(' and char != ')' or top == '[' and char != ']':
+                return False
+    return len(a) == 0
+
+
+def check_bracket_cond(s):
+    stack = []
+    num = []
+    answer = 0
+    i = 0
+    for char in s:
+        if char in {'(', '[', '{'}:
+            stack.append(char)
+            num.append(i)
+        else:
+            if len(stack) == 0:
+                answer = i
+            else:
+                top = stack.pop()
+                if top == '(' and char == ')' or top == '[' and char == ']' or top == '{' and char == '}':
+                    num_top = num.pop()
+                else:
+                    answer = i
+        i += 1
+    if len(stack) == 0 and answer == 0:
+        return 'Success'
+    else:
+        return i
+
+
 if __name__ == '__main__':
     #  compare_fib_methods(40)
     #  print(get_fib_last_digit(696352))
@@ -167,5 +206,6 @@ if __name__ == '__main__':
     #  greedy_algor([[1, 3], [2, 5], [3, 6]])
     #  greedy_algor([[4, 7], [1, 3], [2, 5], [5, 6]])
     #  expensive_bug([3, 80], [[60, 20], [100, 50], [120, 30]])
-    get_s(6)
-
+    #  get_s(6)
+    #  print(check_brackets_seq("()[[()]]"))
+    print(check_bracket_cond("{{{[][][]"))
