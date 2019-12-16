@@ -182,9 +182,10 @@ def check_bracket_cond(s):
         if char in {'(', '[', '{'}:
             stack.append(char)
             num.append(i)
-        else:
+        elif char in {')', ']', '}'}:
             if len(stack) == 0:
-                answer = i
+                answer = i+1
+                break
             else:
                 top = stack.pop()
                 if top == '(' and char == ')' or top == '[' and char == ']' or top == '{' and char == '}':
@@ -195,7 +196,33 @@ def check_bracket_cond(s):
     if len(stack) == 0 and answer == 0:
         return 'Success'
     else:
-        return i
+        return answer
+
+
+def get_tree_height(a):
+    forest = []
+    q = 0
+    for i in a:
+        if i in forest:
+            forest.index(i)
+        else:
+            forest.append(i)
+        q += 1
+
+
+def dfs(n):
+    matrix_of_coherence = [[0, 1, 0],  # матрица связности
+                           [1, 0, 0],
+                           [0, 0, 0]]
+
+    ex = set()  # множество посещенных вершин
+
+    def dfs1(node):  # start - начальная вершина
+        ex.add(node)
+        for coherence in range(len(matrix_of_coherence)):
+            if matrix_of_coherence[node][coherence] == 1 and coherence not in ex:
+                print(coherence)
+                #  start(coherence)
 
 
 if __name__ == '__main__':
@@ -208,4 +235,6 @@ if __name__ == '__main__':
     #  expensive_bug([3, 80], [[60, 20], [100, 50], [120, 30]])
     #  get_s(6)
     #  print(check_brackets_seq("()[[()]]"))
-    print(check_bracket_cond("{{{[][][]"))
+    #  print(check_bracket_cond("()[]}"))
+    #  print(check_bracket_cond('(slkj{lk[lsj]}'))
+    print(get_tree_height([9, 7, 5, 5, 2, 9, 9, 9, 2, -1]))
