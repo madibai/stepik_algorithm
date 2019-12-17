@@ -1,5 +1,6 @@
 import time
 from math import gcd, floor, sqrt
+import re
 
 
 def get_fib(n):
@@ -17,9 +18,9 @@ def get_fib_array(n):
         i = 1
         while i < n:
             if i != 1:
-                a.append(a[i-1]+a[i-2])
+                a.append(a[i - 1] + a[i - 2])
             i += 1
-    return a[len(a)-1] + a[len(a)-2]
+    return a[len(a) - 1] + a[len(a) - 2]
 
 
 def get_fib_variable(n):
@@ -133,7 +134,7 @@ def greedy_algor(arr):
 
 
 def expensive_bug(n, arr):
-    arr.sort(key=lambda x: x[0]/x[1])
+    arr.sort(key=lambda x: x[0] / x[1])
     arr = arr[::-1]
     q = n[0]
     w = n[1]
@@ -184,7 +185,7 @@ def check_bracket_cond(s):
             num.append(i)
         elif char in {')', ']', '}'}:
             if len(stack) == 0:
-                answer = i+1
+                answer = i + 1
                 break
             else:
                 top = stack.pop()
@@ -225,6 +226,56 @@ def dfs(n):
                 #  start(coherence)
 
 
+def dfs2(graph, start, visited=None):
+    if visited is None:
+        visited = set()
+    visited.add(start)
+    print(start)
+    for next_graph in graph[start] - visited:
+        dfs2(graph, next_graph, visited)
+    return visited
+
+
+def reg_exp1(s):
+    #  result = re.search('\d{2}-\d\d/\d{4}', s)
+    result = re.search(r'\d{3}', s)
+    ans = re.match(r'[-+]?\d+', '1234')
+    print(ans[0] if ans else 'not found')
+    print(result[0] if result else 'not found')
+
+
+def reg_exp_exec():
+    match = re.search(r'\d\d\D\d\d', r'Телефон 123-12-12')
+    print(match[0] if match else 'Not found')
+    # -> 23-12
+    match = re.search(r'\d\d\D\d\d', r'Телефон 1231212')
+    print(match[0] if match else 'Not found')
+    # -> Not found
+    match = re.fullmatch(r'\d\d\D\d\d', r'12-12')
+    print('YES' if match else 'NO')
+    # -> YES
+    match = re.fullmatch(r'\d\d\D\d\d', r'Т. 12-12')
+    print('YES' if match else 'NO')
+    # -> NO
+    print(re.split(r'\W+', 'Где, скажите мне, мои очки??!'))
+    # -> ['Где', 'скажите', 'мне', 'мои', 'очки', '']
+    print(re.findall(r'\d\d\.\d\d\.\d{4}',
+                     r'Эта строка написана 19.01.2018, а могла бы и 01.09.2017'))
+    # -> ['19.01.2018', '01.09.2017']
+    for m in re.finditer(r'\d\d\.\d\d\.\d{4}', r'Эта строка написана 19.01.2018, а могла бы и 01.09.2017'):
+        print('Дата', m[0], 'начинается с позиции', m.start())
+        # -> Дата 19.01.2018 начинается с позиции 20
+    # -> Дата 01.09.2017 начинается с позиции 45
+    print(re.sub(r'\d\d\.\d\d\.\d{4}',
+                 r'DD.MM.YYYY',
+                 r'Эта строка написана 19.01.2018, а могла бы и 01.09.2017'))
+
+
+def reg_exp():
+    reg_exp1('asdawadsad23-34/2020 not -a123a sfdsfd')
+    reg_exp_exec()
+
+
 if __name__ == '__main__':
     #  compare_fib_methods(40)
     #  print(get_fib_last_digit(696352))
@@ -237,4 +288,14 @@ if __name__ == '__main__':
     #  print(check_brackets_seq("()[[()]]"))
     #  print(check_bracket_cond("()[]}"))
     #  print(check_bracket_cond('(slkj{lk[lsj]}'))
-    print(get_tree_height([9, 7, 5, 5, 2, 9, 9, 9, 2, -1]))
+    #  print(get_tree_height([9, 7, 5, 5, 2, 9, 9, 9, 2, -1]))
+    graphIn = {'0': set(['1', '2']),
+               '1': set(['0', '3', '4']),
+               '2': set(['0']),
+               '3': set(['1']),
+               '4': set(['2', '3'])
+               }
+    #print(dfs2(graphIn, '0'))
+    reg_exp()
+
+
