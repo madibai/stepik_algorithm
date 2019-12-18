@@ -276,6 +276,26 @@ def reg_exp():
     reg_exp_exec()
 
 
+def bin_search(input_l, val):
+    list_size = len(input_l) - 1
+
+    idx0 = 0
+    idxn = list_size
+    # Find the middle most value
+    while idx0 <= idxn:
+        midval = (idx0 + idxn) // 2
+
+        if input_l[midval] == val:
+            return midval
+    # Compare the value the middle most value
+        if val > input_l[midval]:
+            idx0 = midval + 1
+        else:
+            idxn = midval - 1
+    if idx0 > idxn:
+        return None
+
+
 if __name__ == '__main__':
     #  compare_fib_methods(40)
     #  print(get_fib_last_digit(696352))
@@ -295,7 +315,9 @@ if __name__ == '__main__':
                '3': set(['1']),
                '4': set(['2', '3'])
                }
-    #print(dfs2(graphIn, '0'))
-    reg_exp()
-
+    #  print(dfs2(graphIn, '0'))
+    #  reg_exp()
+    input_l = [20, 70, 109, 304, 530, 702]
+    print(bin_search(input_l, 530))
+    print(bin_search(input_l, 110))
 
