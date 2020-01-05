@@ -1,6 +1,8 @@
 import sys
 from collections import deque
 
+from urllib3.connectionpool import xrange
+
 
 def task_tree_depth():
     n = int(input())
@@ -82,8 +84,27 @@ def task1_3():
         print(n_)
 
 
+def task3_1():
+    n_ = int(input())
+    a = {}
+    for i in xrange(n_):
+        line = input()
+        if line.startswith('add'):
+            a[line.split(' ')[1]] = line.split(' ')[2]
+        elif line.startswith('find'):
+            if line.split(' ')[1] in a:
+                print(a[line.split(' ')[1]])
+            else:
+                print('not found')
+        elif line.startswith('del'):
+            if line.split(' ')[1] in a:
+                a.pop(line.split(' ')[1])
+
+
 if __name__ == '__main__':
     #  task_tree_depth()
     #  print(task1_1(input()))
     #  task1_2()
-    task1_3()
+    #  task1_3()
+    task3_1()
+
